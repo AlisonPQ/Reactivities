@@ -1,4 +1,3 @@
-import React from 'react';
 import { Grid } from 'semantic-ui-react';
 import { Activity } from '../../../app/models/activity';
 import ActivityList from './ActivityList';
