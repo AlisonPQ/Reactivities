@@ -11,13 +11,14 @@ export default class ActivityStore {
   loadingInitial = false;
 
   constructor() {
-    makeAutoObservable(this)
+    makeAutoObservable(this);
   }
 
   loadActivities = async () => {
     this.setLoadingInitial(true);
     try {
       const activities = await agent.Activities.list();
+      this.activities = [];
       activities.forEach(activity => {
         activity.date = activity.date.split('T')[0];
         this.activities.push(activity);
@@ -76,6 +77,23 @@ export default class ActivityStore {
         this.activities = [...this.activities.filter(a => a.id !== activity.id), activity];
         this.selectedActivity = activity;
         this.editMode = false;
+        this.loading = false;
+      });
+    } catch (error) {
+      console.log(error);
+      runInAction(() => {
+        this.loading = false;
+      });
+    }
+  }
+
+  deleteActivity = async (id: string) => {
+    this.loading = true;
+    try {
+      await agent.Activities.delete(id);
+      runInAction(() => {
+        this.activities = [...this.activities.filter(a => a.id !== id)];
+        if (this.selectedActivity?.id === id ) this.cancelSelectedActivity();
         this.loading = false;
       });
     } catch (error) {
