@@ -16,7 +16,7 @@ namespace API.Services
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
                 new Claim(ClaimTypes.Email, user.Email),
             };
-      var superSecretKey = "JyFnVGbKd2hSHwWjFcLDNbYp8VFAuXjaRxeWScd52VWScWa3kGV2TNKebWkRTqh2"; //tmp
+      var superSecretKey = "Super secret key"; //tmp "JyFnVGbKd2hSHwWjFcLDNbYp8VFAuXjaRxeWScd52VWScWa3kGV2TNKebWkRTqh2"
       var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(superSecretKey));
       var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
 
