@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using API.DTOs;
 using API.Services;
 using Domain;
@@ -8,21 +9,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
-  [AllowAnonymous]
   [ApiController]
   [Route("api/[controller]")]
   public class AccountController : ControllerBase
   {
-    
+
     private readonly UserManager<AppUser> _userManager;
     private readonly TokenService _tokenService;
-    
+
     public AccountController(UserManager<AppUser> userManager, TokenService tokenService)
     {
       _tokenService = tokenService;
       _userManager = userManager;
     }
 
+    [AllowAnonymous]
     [HttpPost("login")]
     public async Task<ActionResult<UserDTO>> Login(LoginDTO loginDto)
     {
@@ -34,17 +35,13 @@ namespace API.Controllers
 
       if (result)
       {
-        return new UserDTO
-        {
-          DisplayName = user.DisplayName,
-          Image = null,
-          Token = _tokenService.CreateToken(user),
-          Username = user.UserName
-        };
+        return CreateUserObject(user);
       }
 
       return Unauthorized();
     }
+
+    [AllowAnonymous]
     [HttpPost("register")]
     public async Task<ActionResult<UserDTO>> Register(RegisterDTO registerDto)
     {
@@ -68,16 +65,28 @@ namespace API.Controllers
 
       if (result.Succeeded)
       {
-        return new UserDTO
-        {
-          DisplayName = user.DisplayName,
-          Image = null,
-          Token = _tokenService.CreateToken(user),
-          Username = user.UserName
-        };
+        return CreateUserObject(user);
       }
 
       return BadRequest(result.Errors);
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<UserDTO>> GetCurrentUser()
+    {
+      var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
+      return CreateUserObject(user);
+    }
+
+    private UserDTO CreateUserObject(AppUser user)
+    {
+      return new UserDTO
+      {
+        DisplayName = user.DisplayName,
+        Image = null,
+        Token = _tokenService.CreateToken(user),
+        Username = user.UserName
+      };
     }
   }
 }
