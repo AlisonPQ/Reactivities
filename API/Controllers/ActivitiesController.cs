@@ -8,7 +8,7 @@ namespace API.Controllers
     [AllowAnonymous]
     public class ActivitiesController : BaseApiController
     {
-        [HttpGet] //api/activities
+        [HttpGet]
         public async Task<IActionResult> GetActivities()
         {
             return HandleResult(await Mediator.Send(new List.Query()));

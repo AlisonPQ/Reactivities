@@ -9,6 +9,6 @@ namespace Domain
         public string Category { get; set; }
         public string City { get; set; }
         public string Venue { get; set; }
-        public ICollection<AppUser> Attendees { get; set; }
+        public ICollection<ActivityAttendee> Attendees { get; set; }
     }
 }
