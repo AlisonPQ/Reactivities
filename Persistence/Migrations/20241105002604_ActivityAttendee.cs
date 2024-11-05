@@ -11,9 +11,6 @@ namespace Persistence.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "ActivityAppUser");
-
             migrationBuilder.CreateTable(
                 name: "ActivityAttendees",
                 columns: table => new
@@ -50,35 +47,6 @@ namespace Persistence.Migrations
         {
             migrationBuilder.DropTable(
                 name: "ActivityAttendees");
-
-            migrationBuilder.CreateTable(
-                name: "ActivityAppUser",
-                columns: table => new
-                {
-                    ActivitiesId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    AttendeesId = table.Column<string>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ActivityAppUser", x => new { x.ActivitiesId, x.AttendeesId });
-                    table.ForeignKey(
-                        name: "FK_ActivityAppUser_Activities_ActivitiesId",
-                        column: x => x.ActivitiesId,
-                        principalTable: "Activities",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ActivityAppUser_AspNetUsers_AttendeesId",
-                        column: x => x.AttendeesId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ActivityAppUser_AttendeesId",
-                table: "ActivityAppUser",
-                column: "AttendeesId");
         }
     }
 }
