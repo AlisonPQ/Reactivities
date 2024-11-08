@@ -10,5 +10,8 @@ export interface Activity {
   venue: string;
   hostUsername?: string;
   iscancelled?: boolean;
+  isGoing?: boolean;
+  isHost?: boolean;
+  host?: Profile;
   attendees?: Profile[];
 }
