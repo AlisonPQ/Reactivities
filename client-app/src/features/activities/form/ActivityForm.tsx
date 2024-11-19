@@ -18,7 +18,7 @@ export default observer(function ActivityForm() {
 
   const { activityStore } = useStore();
   const { createActivity, updateActivity,
-    loading, loadActivity, loadingInitial } = activityStore;
+    loadActivity, loadingInitial } = activityStore;
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -40,12 +40,14 @@ export default observer(function ActivityForm() {
 
   function handleFormSubmit(activity: ActivityFormValues) {
     if (!activity.id) {
-      activity.id = uuid();
-      createActivity(activity).then(() => navigate(`/activities/${activity.id}`));
+      const newActivity = {
+        ...activity,
+        id: uuid(),
+      };
+      createActivity(newActivity).then(() => navigate(`/activities/${newActivity.id}`));
     } else {
       updateActivity(activity).then(() => navigate(`/activities/${activity.id}`));
     }
-    activity.id ? updateActivity(activity) : createActivity(activity);
   }
 
   if (loadingInitial) return <LoadingComponent content="Loading activity..." />
