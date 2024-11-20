@@ -3,7 +3,6 @@ import { Button, Icon, Item, Label, Segment } from "semantic-ui-react";
 import { Activity } from "../../../app/models/activity";
 import { format } from "date-fns";
 import ActivityListItemAttendee from "./ActivityListItemAttendee";
-import { useEffect } from "react";
 
 interface Props {
   activity: Activity
@@ -19,7 +18,7 @@ export default function ActivityListItem({activity}: Props) {
         )}
         <Item.Group>
           <Item>
-            <Item.Image size="tiny" circular src='/assets/user.png' />
+            <Item.Image style={{marginBottom: 4}} size="tiny" circular src='/assets/user.png' />
             <Item.Content>
               <Item.Header as={Link} to={`/activities/${activity.id}`}>
                 {activity.title}
