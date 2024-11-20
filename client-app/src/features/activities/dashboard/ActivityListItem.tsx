@@ -3,6 +3,7 @@ import { Button, Icon, Item, Label, Segment } from "semantic-ui-react";
 import { Activity } from "../../../app/models/activity";
 import { format } from "date-fns";
 import ActivityListItemAttendee from "./ActivityListItemAttendee";
+import { useEffect } from "react";
 
 interface Props {
   activity: Activity
@@ -13,6 +14,9 @@ export default function ActivityListItem({activity}: Props) {
   return (
     <Segment.Group>
       <Segment>
+        {activity.isCancelled && (
+          <Label attached="top" color="red" content="Cancelled" style={{textAlign: 'center'}}/>
+        )}
         <Item.Group>
           <Item>
             <Item.Image size="tiny" circular src='/assets/user.png' />
