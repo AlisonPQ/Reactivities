@@ -41,6 +41,7 @@ namespace API.Extensions
       // Making available to be injected inside application handlers
       services.AddHttpContextAccessor();
       services.AddScoped<IUserAccessor, UserAccessor>();
+      services.AddScoped<IPhotoAccesor, PhotoAccesor>();
       services.Configure<CloudinarySettings>(config.GetSection("Cloudinary"));
 
       return services;
