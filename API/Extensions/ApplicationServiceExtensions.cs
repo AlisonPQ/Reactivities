@@ -4,6 +4,7 @@ using Application.Core;
 using Application.Interfaces;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Infrastructure.Photos;
 using Infrastructure.Security;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -40,6 +41,7 @@ namespace API.Extensions
       // Making available to be injected inside application handlers
       services.AddHttpContextAccessor();
       services.AddScoped<IUserAccessor, UserAccessor>();
+      services.Configure<CloudinarySettings>(config.GetSection("Cloudinary"));
 
       return services;
     }
